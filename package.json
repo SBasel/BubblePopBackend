@@ -1,7 +1,7 @@
 {
-  "name": "security-app",
+  "name": "bubblepop",
   "version": "1.0.0",
-  "description": "",
+  "description": "backend",
   "main": "index.js",
   "type": "module",
   "scripts": {
