@@ -18,10 +18,9 @@ export async function insertUser(data) {
   try {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(Passwort,salt);
-    await 
-    db.execute(
-      "INSERT INTO `Login` (UserName, Passwort, Email) VALUES (?, ?, ?)",
-      [UserName, hashedPassword, Email]
+    const insertQuery =
+      "INSERT INTO `Login` (UserName, Passwort, Email) VALUES (?, ?, ?)";
+      await safeQuery(insertQuery, [UserName, hashedPassword, Email]
     );
   } catch (error) {
     console.log(error);
