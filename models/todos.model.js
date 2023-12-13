@@ -64,3 +64,13 @@ export async function isEmailUnique(Email) {
  } catch (error){
   throw errorCreator('Fehler bei der Datenbankabfrage', 500)
  }}
+
+ export async function findUserByEmail(Email){
+  const query = 'SELECT * FROM Login WHERE Email = ?';
+  const params = [Email];
+  try{
+    const result = await safeQuery(query, params);
+    return result[0] || null;
+  }catch (error){
+      throw errorCreator('Fehler bei der Datenbankabfrage', 500)
+     }}

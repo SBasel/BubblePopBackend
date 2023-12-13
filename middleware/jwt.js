@@ -1,21 +1,21 @@
 import jwt from "jsonwebtoken"
+import { errorCreator } from "../lib/errorCreator.js";
+
+const JWT_SECRET = process.env.JWT_SECRET;
 
 export function createTokenMiddleware(req,res,next){
 
-    console.log(req.userdate.id)
+    if (!req.user){
+        return next(errorCreator("Keine Benutzerdaten gefunden", 401));
+    }
 
     const payload={
-        iss:"",
-        sub: req.userdate.id,
-        aud: "",
-
-        id: req.userdata.id,
-        name: req.username,
-        email: req.usermail,
+       
+        id: req.user.id,
+        Email: req.user.Email,
     };
 
-    const secretKey = process.env.SECRETKEY;
-    const token = jwt.sign(payload, secretKey, {expiresIn: "1h"})
-    req.jwt =token;
+    const token = jwt.sign(payload, JWT_SECRET, {expiresIn: "1h"})
+    req.token = token;
     next();
 }
