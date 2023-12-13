@@ -9,7 +9,8 @@ try{
   const user = await findUserByEmail(Email);
   if(user && await bcrypt.compare(Passwort, user.Passwort)) {
     req.user = {id: user.id, Email: user.Email};
-    next();
+    delete req.body.Passwort
+  next();
   }else {
     return next(errorCreator("Ungültige Anmeldeinformation", 401));
   }

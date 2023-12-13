@@ -17,5 +17,5 @@ export function createTokenMiddleware(req,res,next){
 
     const token = jwt.sign(payload, JWT_SECRET, {expiresIn: "1h"})
     req.token = token;
-    next();
+    res.status(200).json({message:"Login erfolgreich", body:req.body, user:req.user, token:req.token});
 }
