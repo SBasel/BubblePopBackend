@@ -19,7 +19,7 @@ export function createTokenMiddleware(req,res,next){
     req.token = token;
     res.cookie('token', token, {
         httpOnly: true, 
-        secure: true,
+        secure: false,
         maxAge: 3600000
     });
     res.status(200).json({message:"Login erfolgreich", body:req.body, user:req.user });
