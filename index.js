@@ -5,14 +5,17 @@ import { todoRoute } from "./routes/todos.routes.js";
 import {registerRoute} from "./routes/register.routes.js";
 import cors from "cors";
 import bodyParser from 'body-parser'
+import { loginRoute } from "./routes/auth.routes.js";
 
 const app = express();
-app.use(cors());
+app.use(cors({origin: 'http://localhost', 
+ credentials: true}));
 app.use(json());
 app.use(bodyParser.json());
 
 app.use("/todos", todoRoute);
-app.use("/register", registerRoute); // Verwende eine separate Route für die Registrierung
+app.use("/register", registerRoute); 
+app.use("/login", loginRoute);
 
 app.all("*", (req, res, next) => {
   res.status(404).json({

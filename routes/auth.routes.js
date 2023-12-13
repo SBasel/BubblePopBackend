@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { loginController } from "../controllers/login.controllers.js";
-import { createTokenMiddleware } from "../middleware/jwt.js";
+//import { createTokenMiddleware } from "../middleware/jwt.js";
 
 export const loginRoute = Router();
 
-loginRoute.post('/login', loginController, createTokenMiddleware);
+loginRoute.post("/", loginController);
