@@ -4,9 +4,9 @@ import mongoose from "mongoose";
 export async function mongoConnect() {
   try {
     await mongoose.connect(
-      "mongodb+srv://test:12345@wingardium0.rpokvnd.mongodb.net/?retryWrites=true&w=majority",
+      "mongodb+srv://hannaoleinikova:12345@cluster0.bbmmpf3.mongodb.net/",
       {
-        dbName: "meineNeueDatenbank",
+        dbName: "bubblepop",
       }
     );
   } catch (error) {

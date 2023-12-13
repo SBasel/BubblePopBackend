@@ -5,3 +5,5 @@ export const passwordvalidation = check("password")
   .escape()
   .trim()
   .withMessage("Das Passwort ist zu unsicher");
+
+  
