@@ -1,5 +1,6 @@
 import { safeQuery } from "../configs/db.connect.js";
 import bcrypt from "bcrypt";
+import { errorCreator } from "../lib/errorCreator.js";
 export async function getAllTodos(id) {
   try {
     const query = `SELECT * FROM Login WHERE id = ?`;
@@ -52,3 +53,14 @@ export async function deleteUser(data) {
     throw new Error();
   }
 }
+
+export async function isEmailUnique(Email) {
+  const query  = 'SELECT * FROM Login WHERE Email = ?';
+  const params = [Email];
+
+  try{
+ const result = await safeQuery(query, params);
+ return result.length === 0;
+ } catch (error){
+  throw errorCreator('Fehler bei der Datenbankabfrage', 500)
+ }}

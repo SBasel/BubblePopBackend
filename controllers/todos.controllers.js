@@ -24,7 +24,8 @@ export async function getAllTodosController(req, res, next) {
 export async function userPostController(req, res, next) {
   const errors = validationResult(req);
  if (!errors.isEmpty()) {
- return next(errorCreator("Fehler bei der Eingabevalidierung", 400));
+  const errorMessage = errors.array().map(error => error.msg).join(', ');
+ return next(errorCreator(errorMessage, 400));
   }
  const { UserName, Passwort, Email } = req.body;
  if (!UserName || !Passwort || !Email) {

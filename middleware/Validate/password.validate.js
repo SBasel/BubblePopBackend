@@ -1,6 +1,6 @@
 import { check } from "express-validator";
 
-export const passwordvalidation = check("password")
+export const passwordvalidation = check("Passwort")
   .matches(/^(?=.*[A-Z]).{8,}$/)
   .escape()
   .trim()
