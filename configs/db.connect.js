@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 export async function mongoConnect() {
   try {
     await mongoose.connect(
-      "mongodb+srv://hannaoleinikova:12345@cluster0.bbmmpf3.mongodb.net/",
+      "mongodb+srv://",
       {
         dbName: "bubblepop",
       }
