@@ -3,10 +3,9 @@ import { config } from "dotenv";
 config();
 
 const pool = mysql.createPool({
-  host: process.env.HOST,
-  user: process.env.USER,
-  password: process.env.PASSWORD,
-  database: process.env.DATABASE,
+  host: 'localhost',
+  user: 'root',
+  database: 'Bubble_Login',
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0,
