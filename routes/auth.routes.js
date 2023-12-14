@@ -6,11 +6,10 @@ import { passwordvalidation } from "../middleware/Validate/password.validate.js"
 
 export const loginRoute = Router();
 
-
-
-loginRoute.post("/",
+loginRoute.post(
+  "/",
   emailvalidation,
   passwordvalidation,
   loginController,
-  createTokenMiddleware,
- );
+  createTokenMiddleware
+);
