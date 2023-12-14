@@ -2,7 +2,6 @@
 
 export async function startGame(req, res, next) {
     const sessionId = generateUniqueId();
-
     const startQuery = 'INSERT INTO game_sessions (session_id, start_time, score, time_taken) VALUES (?, NOW(), 0, 0)';
     db.query(startQuery, [sessionId], (err, result) => {
         if (err) {

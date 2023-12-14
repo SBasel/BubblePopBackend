@@ -23,7 +23,7 @@ function generateUniqueId() {
 
 
 // Middleware, um zu prüfen, ob das Spiel gestartet ist
-function checkGameStarted(req, res, next) {
+export function checkGameStarted(req, res, next) {
     if (!req.session.gameStarted) {
         res.status(400).json({ message: 'Game not started' });
     } else {
@@ -31,7 +31,7 @@ function checkGameStarted(req, res, next) {
     }
 }
 // Middleware, um zu überprüfen, ob das Spiel beendet ist
-function checkGameEnded(req, res, next) {
+export function checkGameEnded(req, res, next) {
     if (req.session.gameStarted) {
         res.status(400).json({ message: 'Game not ended' });
     } else {
