@@ -27,7 +27,7 @@ document.getElementById('loginForm').addEventListener('submit', function(e) {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({ Email, Passwort}),
-        credentials: 'include', // Aktiviere Cookies für die Anfrage
+        credentials: 'include', 
     })
     .then(response => response.json())
     .then(data => document.getElementById('response').innerText = JSON.stringify(data))
