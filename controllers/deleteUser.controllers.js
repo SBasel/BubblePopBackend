@@ -2,7 +2,12 @@ import { errorCreator } from "../lib/errorCreator.js";
 import { deleteUser } from "../models/todos.model.js";
 
 export async function deleteUserContoller(req, res, next){
+  const userEmail = req.user.Email;
   const {Email} = req.body;
+
+  if (userEmail !== Email){
+    return next(errorCreator("Nicht Authorisiert, diesen Benutzer zu löschen!", 403));
+  }
   
   try{
     const result = await deleteUser(Email);

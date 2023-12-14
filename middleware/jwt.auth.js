@@ -3,7 +3,7 @@ import { errorCreator } from "../lib/errorCreator.js";
 
 
 export function authToken(req, res, next){
-const token = req.cookie[token];
+const token = req.cookies['token'];
 
 if (!token){
   return next(errorCreator("Kein Authentifizierungstoken gefunden", 401));
