@@ -3,7 +3,7 @@
 Backend mit express.js für Team D Bubblepop
 
 - git clone
-- git install
+- npm install
 - git branch neuer-branch-name (um eure branch zu erstellen)
 - git push -u origin neuer-branch-name
 
@@ -21,3 +21,9 @@ Ziele:
 - Speichern der Endpunktzahl mit Name aus Form
 
 - Frontend und Merge
+
+toDo LoginTeam:
+
+- passwort reset
+- user delete
+- token refresh

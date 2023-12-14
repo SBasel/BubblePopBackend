@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Meine App</title>
+    </head>
+    <body>
+        <h1>Willkommen bei Meine App</h1>
+
+        <!-- Registrierungsformular -->
+        <h2>Registrieren</h2>
+        <form id="registerForm">
+            <input type="text" id="registerUserName" placeholder="Username" />
+            <input type="email" id="registerEmail" placeholder="E-Mail" />
+            <input
+                type="password"
+                id="registerPassword"
+                placeholder="Passwort"
+            />
+            <button type="submit">Registrieren</button>
+        </form>
+
+        <!-- Login-Formular -->
+        <h2>Login</h2>
+        <form id="loginForm">
+            <input type="email" id="loginEmail" placeholder="E-Mail" />
+            <input type="password" id="loginPassword" placeholder="Passwort" />
+            <button type="submit">Login</button>
+        </form>
+
+        <!-- Logout-Button -->
+        <h2>Logout</h2>
+        <button id="logoutButton">Logout</button>
+
+        <!-- Benutzer löschen -->
+        <h2>Benutzer Löschen</h2>
+        <form id="deleteUserForm">
+            <input
+                type="email"
+                id="deleteEmail"
+                placeholder="E-Mail zum Löschen"
+            />
+            <button type="submit">Benutzer Löschen</button>
+        </form>
+
+        <div id="response"></div>
+        <script type="module" src="script.js"></script>
+    </body>
+</html>
