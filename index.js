@@ -8,6 +8,7 @@ import bodyParser from 'body-parser'
 import { loginRoute } from "./routes/auth.routes.js";
 import cookieParser from "cookie-parser";
 import { logoutRoute } from "./routes/logout.routes.js";
+import { deleteUserRoute } from "./routes/deleteUser.routes.js";
 
 const app = express();
 
@@ -31,6 +32,7 @@ app.post("/test", (req, res) => {
   res.send("Cookies abgerufen"); // Diese Zeile ist nur sinnbildlich um die Anfrage abzuschließen :D
 });
 app.use("/logout", logoutRoute);
+app.use("/delete", deleteUserRoute);
 
 app.all("*", (req, res, next) => {
   res.status(404).json({

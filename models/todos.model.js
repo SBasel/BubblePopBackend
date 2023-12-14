@@ -45,7 +45,7 @@ export async function updateUser(data) {
 }
 
 export async function deleteUser(Email) {
-  const query  = 'DELETE FROM Login WHERE Email = ?';
+  const query  = 'DELETE  FROM Login WHERE Email = ?';
   const params = [Email];
 
   try {
