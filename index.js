@@ -10,14 +10,19 @@ import cookieParser from "cookie-parser";
 import { logoutRoute } from "./routes/logout.routes.js";
 
 const app = express();
+
+//allgemein gültige Mittelware!
 app.use(cors({origin: 'http://localhost', 
  credentials: true}));
 app.use(json());
 app.use(bodyParser.json());
 app.use(cookieParser());
 
+
+//Endpoint!
 app.use("/todos", todoRoute);
 app.use("/register", registerRoute); 
+
 app.use("/login", loginRoute);
 app.post("/test", (req, res) => {
   // Cookies aus der Anfrage abrufen

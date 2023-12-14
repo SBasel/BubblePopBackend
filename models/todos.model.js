@@ -1,9 +1,10 @@
 import { safeQuery } from "../configs/db.connect.js";
 import bcrypt from "bcrypt";
 import { errorCreator } from "../lib/errorCreator.js";
+
 export async function getAllTodos(id) {
   try {
-    const query = `SELECT * FROM Login WHERE id = ?`;
+    const query = `SELECT UserName, id FROM Login WHERE id = ?`;
     const params = [id];
     const data = await safeQuery(query, params);
     return data;
@@ -43,14 +44,15 @@ export async function updateUser(data) {
   }
 }
 
-export async function deleteUser(data) {
-  const { id } = data;
+export async function deleteUser(Email) {
+  const query  = 'DELETE * FROM Login WHERE Email = ?';
+  const params = [Email];
 
   try {
-    db.execute("DELETE FROM `user` WHERE id = ?", [id]);
+    const result = await safeQuery(query, params);
+    return result;
   } catch (error) {
-    console.log(error);
-    throw new Error();
+    throw errorCreator('Fehler beim löschen des User', 500)
   }
 }
 
