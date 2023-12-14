@@ -11,10 +11,10 @@ import { logoutRoute } from "./routes/logout.routes.js";
 import { deleteUserRoute } from "./routes/deleteUser.routes.js";
 
 const app = express();
+const origin = ['http://127.0.0.1:5500', 'http://localhost:3030'] 
 
 //allgemein gültige Mittelware!
-app.use(cors({origin: 'http://localhost', 
- credentials: true}));
+app.use(cors({ origin: origin, credentials: true }));
 app.use(json());
 app.use(bodyParser.json());
 app.use(cookieParser());
