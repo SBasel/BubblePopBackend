@@ -11,9 +11,9 @@ function App() {
     deleteEmail: "",
   });
 
-  const onChangeHandler = (event) => {
-    console.log(event.target.id);
+  const [responseMessage, setResponseMessage] = useState('');
 
+  const onChangeHandler = (event) => {
     setInputRegister({
       ...inputRegister,
       [event.target.id]: event.target.value,
@@ -22,9 +22,7 @@ function App() {
 
   const onSubmitHandlerRegister = (event) => {
     event.preventDefault();
-    const Email = inputRegister.registerEmail;
-    const Passwort = inputRegister.registerPassword;
-    const UserName = inputRegister.registerUserName;
+    const { registerEmail: Email, registerPassword: Passwort, registerUserName: UserName } = inputRegister;
 
     fetch("http://localhost:3030/register", {
       method: "POST",
@@ -34,29 +32,47 @@ function App() {
       body: JSON.stringify({ UserName, Email, Passwort }),
     })
       .then((response) => response.json())
-      .catch((error) => console.error("Error:", error));
+      .then((data) => setResponseMessage(data.answer.data))
+      .catch((error) => {
+        console.error("Error:", error);
+        setResponseMessage("Fehler bei der Registrierung.");
+      });
   };
 
   const onSubmitHandlerLogin = (event) => {
-    event.preventDefault();
-    const Email = inputRegister.loginEmail;
-    const Passwort = inputRegister.loginPassword;
+  event.preventDefault();
+  const { loginEmail: Email, loginPassword: Passwort } = inputRegister;
 
-    fetch("http://localhost:3030/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ Email, Passwort }),
-      credentials: "include", // Aktiviere Cookies für die Anfrage
+  fetch("http://localhost:3030/login", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ Email, Passwort }),
+    credentials: "include",
+  })
+    .then((response) => {
+      if (!response.ok) {
+        // Wenn der Server einen Fehlerstatus sendet, werfen Sie einen Fehler
+        return response.json().then((data) => {
+          throw new Error(data.message || "Fehler beim Login");
+        });
+      }
+      return response.json();
     })
-      .then((response) => response.json())
-      .catch((error) => console.error("Error:", error));
-  };
+    .then((data) => {
+      setResponseMessage(data.message);
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+      setResponseMessage(error.message);
+    });
+};
 
   const onSubmitHandlerDelete = (event) => {
     event.preventDefault();
-    const Email = inputRegister.deleteEmail;
+    const { deleteEmail: Email } = inputRegister;
+
     fetch("http://localhost:3030/delete", {
       method: "DELETE",
       headers: {
@@ -66,8 +82,33 @@ function App() {
       credentials: "include",
     })
       .then((response) => response.json())
-      .catch((error) => console.error("Error:", error));
+      .then((data) => setResponseMessage(data.answer.data))
+      .catch((error) => {
+        console.error("Error:", error);
+        setResponseMessage("Fehler beim Löschen des Benutzers.");
+      });
   };
+
+  const onSubmitHandlerLogout = () => {
+  fetch("http://localhost:3030/logout", {
+    method: "POST", 
+    credentials: "include",
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      if (data && data.message) {
+        setResponseMessage(data.message);
+      } else {
+        setResponseMessage("Logout erfolgreich, aber keine Antwort vom Server.");
+      }
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+      setResponseMessage("Fehler beim Logout.");
+    });
+};
+
+
 
   return (
     <>
@@ -114,7 +155,7 @@ function App() {
       </form>
 
       <h2>Logout</h2>
-      <button id="logoutButton">Logout</button>
+      <button onClick={onSubmitHandlerLogout} id="logoutButton">Logout</button>
 
       <h2>Benutzer Löschen</h2>
       <form onSubmit={onSubmitHandlerDelete} id="deleteUserForm">
@@ -127,9 +168,11 @@ function App() {
         <button type="submit">Benutzer Löschen</button>
       </form>
 
-      <div id="response"></div>
+      <p>{responseMessage}</p>
     </>
   );
 }
 
 export default App;
+
+
