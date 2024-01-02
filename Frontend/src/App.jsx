@@ -70,24 +70,36 @@ function App() {
 };
 
   const onSubmitHandlerDelete = (event) => {
-    event.preventDefault();
-    const { deleteEmail: Email } = inputRegister;
+  event.preventDefault();
+  const { deleteEmail: Email } = inputRegister;
 
-    fetch("http://localhost:3030/delete", {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ Email }),
-      credentials: "include",
+  fetch("http://localhost:3030/delete", {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ Email }),
+    credentials: "include",
+  })
+    .then((response) => {
+      if (!response.ok) {
+        // Wenn der Server einen Fehlerstatus sendet, werfen Sie einen Fehler
+        return response.json().then((data) => {
+          throw new Error(data.data || "Fehler beim Löschen des Benutzers");
+        });
+      }
+      return response.json();
     })
-      .then((response) => response.json())
-      .then((data) => setResponseMessage(data.answer.data))
-      .catch((error) => {
-        console.error("Error:", error);
-        setResponseMessage("Fehler beim Löschen des Benutzers.");
-      });
-  };
+    .then((data) => {
+      // Verwenden Sie 'data.data' für die Erfolgsmeldung
+      setResponseMessage(data.data);
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+      setResponseMessage(error.message);
+    });
+};
+
 
   const onSubmitHandlerLogout = () => {
   fetch("http://localhost:3030/logout", {
