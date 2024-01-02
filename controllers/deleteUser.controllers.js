@@ -15,13 +15,20 @@ export async function deleteUserContoller(req, res, next) {
     const result = await deleteUser(Email);
     if (result.affectedRows === 0) {
       return res.status(404).json({
-        data: "Benutzer nicht gefunden",
+        message: "Benutzer nicht gefunden",
+      });
+    } else {
+      // Löschen des Cookies beim erfolgreichen Löschen des Benutzers
+      res.cookie('token', '', {
+        httpOnly: true,
+        expires: new Date(0)
+      });
+      res.status(200).json({
+        message: "Benutzer erfolgreich gelöscht!",
       });
     }
-    res.status(200).json({
-      data: "Benutzer erfolgreich gelöscht!",
-    });
   } catch (error) {
     next(errorCreator("Fehler beim löschen des Benutzer", 500));
   }
 }
+
