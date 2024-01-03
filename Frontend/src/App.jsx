@@ -11,7 +11,7 @@ function App() {
     deleteEmail: "",
   });
 
-  const [responseMessage, setResponseMessage] = useState("");
+  const [responseMessage, setResponseMessage] = useState('');
 
   const onChangeHandler = (event) => {
     setInputRegister({
@@ -22,11 +22,7 @@ function App() {
 
   const onSubmitHandlerRegister = (event) => {
     event.preventDefault();
-    const {
-      registerEmail: Email,
-      registerPassword: Passwort,
-      registerUserName: UserName,
-    } = inputRegister;
+    const { registerEmail: Email, registerPassword: Passwort, registerUserName: UserName } = inputRegister;
 
     fetch("http://localhost:3030/register", {
       method: "POST",
@@ -44,88 +40,87 @@ function App() {
   };
 
   const onSubmitHandlerLogin = (event) => {
-    event.preventDefault();
-    const { loginEmail: Email, loginPassword: Passwort } = inputRegister;
+  event.preventDefault();
+  const { loginEmail: Email, loginPassword: Passwort } = inputRegister;
 
-    fetch("http://localhost:3030/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ Email, Passwort }),
-      credentials: "include",
+  fetch("http://localhost:3030/login", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ Email, Passwort }),
+    credentials: "include",
+  })
+    .then((response) => {
+      if (!response.ok) {
+        // Wenn der Server einen Fehlerstatus sendet, werfen Sie einen Fehler
+        return response.json().then((data) => {
+          throw new Error(data.message || "Fehler beim Login");
+        });
+      }
+      return response.json();
     })
-      .then((response) => {
-        if (!response.ok) {
-          // Wenn der Server einen Fehlerstatus sendet, werfen Sie einen Fehler
-          return response.json().then((data) => {
-            throw new Error(data.message || "Fehler beim Login");
-          });
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setResponseMessage(data.message);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        setResponseMessage(error.message);
-      });
-  };
+    .then((data) => {
+      setResponseMessage(data.message);
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+      setResponseMessage(error.message);
+    });
+};
 
   const onSubmitHandlerDelete = (event) => {
-    event.preventDefault();
-    const { deleteEmail: Email } = inputRegister;
+  event.preventDefault();
+  const { deleteEmail: Email } = inputRegister;
 
-    fetch("http://localhost:3030/delete", {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ Email }),
-      credentials: "include",
+  fetch("http://localhost:3030/delete", {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ Email }),
+    credentials: "include",
+  })
+    .then((response) => {
+      if (!response.ok) {
+        // Wenn der Server einen Fehlerstatus sendet, werfen Sie einen Fehler
+        return response.json().then((data) => {
+          throw new Error(data.data || "Fehler beim Löschen des Benutzers");
+        });
+      }
+      return response.json();
     })
-      .then((response) => {
-        if (!response.ok) {
-          // Wenn der Server einen Fehlerstatus sendet, werfen Sie einen Fehler
-          return response.json().then((data) => {
-            throw new Error(
-              data.message || "Fehler beim Löschen des Benutzers"
-            );
-          });
-        }
-        return response.json();
-      })
-      .then((data) => {
-        // Verwenden Sie 'data.data' für die Erfolgsmeldung
-        setResponseMessage(data.message);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        setResponseMessage(error.message);
-      });
-  };
+    .then((data) => {
+      // Verwenden Sie 'data.data' für die Erfolgsmeldung
+      setResponseMessage(data.data);
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+      setResponseMessage(error.message);
+    });
+};
+
 
   const onSubmitHandlerLogout = () => {
-    fetch("http://localhost:3030/logout", {
-      method: "POST",
-      credentials: "include",
+  fetch("http://localhost:3030/logout", {
+    method: "POST", 
+    credentials: "include",
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      if (data && data.message) {
+        setResponseMessage(data.message);
+      } else {
+        setResponseMessage("Logout erfolgreich, aber keine Antwort vom Server.");
+      }
     })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data && data.message) {
-          setResponseMessage(data.message);
-        } else {
-          setResponseMessage(
-            "Logout erfolgreich, aber keine Antwort vom Server."
-          );
-        }
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        setResponseMessage("Fehler beim Logout.");
-      });
-  };
+    .catch((error) => {
+      console.error("Error:", error);
+      setResponseMessage("Fehler beim Logout.");
+    });
+};
+
+
 
   return (
     <>
@@ -172,9 +167,7 @@ function App() {
       </form>
 
       <h2>Logout</h2>
-      <button onClick={onSubmitHandlerLogout} id="logoutButton">
-        Logout
-      </button>
+      <button onClick={onSubmitHandlerLogout} id="logoutButton">Logout</button>
 
       <h2>Benutzer Löschen</h2>
       <form onSubmit={onSubmitHandlerDelete} id="deleteUserForm">
@@ -193,3 +186,5 @@ function App() {
 }
 
 export default App;
+
+
