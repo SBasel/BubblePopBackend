@@ -1,27 +1,28 @@
-import jwt from "jsonwebtoken"
-import { errorCreator } from "../lib/errorCreator.js";
+import jwt from 'jsonwebtoken';
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
-export function createTokenMiddleware(req, res, next){
+export function jwtMiddleware(req, res, next) {
+  if (!req.user) {
+    return res.status(401).json({ message: 'Authentifizierung fehlgeschlagen' });
+  }
 
-    if (!req.user){
-        return next(errorCreator("Keine Benutzerdaten gefunden", 401));
-    }
+  const payload = {
+     personalid: req.user.personalid,
+  };
 
-    const payload={
-       
-        id: req.user.id,
-        Email: req.user.Email,
-    };
+ 
+  const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '1h' });
 
-    const token = jwt.sign(payload, JWT_SECRET, {expiresIn: "1h"})
-    req.token = token;
-    res.cookie('token', token, {
-        httpOnly: true, 
-        secure: true, // weil es lokal ist" - https:true 
-        sameSite: 'Strict',
-        maxAge: 3600000
-    });
-    res.status(200).json({message:"Login erfolgreich", body:req.body, user:req.user });
+
+  res.cookie('token', token, {
+    httpOnly: true,
+    secure: false, 
+    sameSite: 'strict', 
+    maxAge: 3600000 
+  });
+
+  req.token = token;
+  next();
 }
+

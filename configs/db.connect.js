@@ -3,9 +3,9 @@ import { config } from "dotenv";
 config();
 
 const pool = mysql.createPool({
-  host: 'localhost',
-  user: 'root',
-  database: 'Bubble_Login',
+  host: process.env.HOST,
+  user: process.env.DB_USER, // Verwenden Sie hier den aktualisierten Schlüssel
+  database: process.env.DATABASE,
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0,
@@ -24,13 +24,11 @@ export async function safeQuery(query, params = [], retryCount = 3) {
   } catch (err) {
     console.log(err);
 
-    // Wenn der Fehler ein ECONNRESET ist und noch Versuche übrig sind
     if (err.code === "ECONNRESET" && retryCount > 0) {
       console.log(
         `Wiederverbindungsversuch, verbleibende Versuche: ${retryCount}`
       );
 
-      // Verzögerung vor dem nächsten Versuch (optional)
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
       return safeQuery(query, params, retryCount - 1);

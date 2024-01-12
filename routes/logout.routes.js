@@ -1,6 +1,7 @@
-import { Router } from "express";
-import { logoutController } from "../controllers/logout.controllers.js";
+import { Router } from 'express';
+import { logoutController } from '../controllers/logout.controllers.js';
 
-export const logoutRoute = Router();
+export const logout = Router();
 
-logoutRoute.post('/', logoutController);
+logout.get('/', logoutController);
+
